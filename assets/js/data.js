@@ -10,7 +10,7 @@ const SITE_DATA = {
   social: [
     { label: "Email",          href: "mailto:hjian105@ucr.edu",          icon: "email"   },
     { label: "GitHub",         href: "https://github.com/JiangHefeifei",  icon: "github"  },
-    { label: "Google Scholar", href: "#",                                 icon: "scholar" },
+    { label: "Google Scholar", href: "https://scholar.google.com/citations?user=Ul1tSO0AAAAJ&hl=en",                                 icon: "scholar" },
   ],
 
   /* ---------------- 引导页照片墙（先留空，给我图后填路径；顺序对应封面 6 个浮动位） ----------------
