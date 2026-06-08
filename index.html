@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ============ 改这里：浏览器标签标题 & SEO ============ -->
+  <title>Hefeifei Jiang — Academic Homepage</title>
+  <meta name="description" content="Academic homepage of Hefeifei Jiang (姜何飞飞), M.S. Robotics researcher at UC Riverside (TASL), applying to PhD programs." />
+  <meta name="author" content="Hefeifei Jiang" />
+  <meta property="og:title" content="Hefeifei Jiang — Academic Homepage" />
+  <meta property="og:description" content="M.S. in Robotics @ UC Riverside · Researcher at TASL, advised by Jiachen Li." />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" type="image/png" sizes="any" href="assets/img/favicon.png?v=2" />
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png?v=2" />
+  <meta name="theme-color" content="#0f172a" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <!-- GSAP (animation engine). Loaded synchronously so the intro has no flash. -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+  <!-- Only pre-hide animated elements if GSAP actually loaded (graceful fallback otherwise) -->
+  <script>if (window.gsap) document.documentElement.classList.add('has-gsap');</script>
+</head>
+<body>
+  <a class="skip-link" href="#about">Skip to content</a>
+
+  <!-- ==================== INTRO (cover page with menu) ==================== -->
+  <header id="intro" class="intro">
+    <div class="cover-photos" id="cover-photos" aria-hidden="true"></div>
+    <div class="intro-overlay"></div>
+    <div class="intro-inner">
+      <!-- 头像：不想要就删掉这一行 -->
+      <img class="intro-avatar" src="assets/img/avatar.jpg" alt="Hefeifei Jiang" />
+      <!-- ============ 改这里：你的全名（开场大字动画） ============ -->
+      <h1 class="intro-name">Hefeifei Jiang</h1>
+      <span class="intro-divider"></span>
+      <p class="intro-subtitle">姜何飞飞 · M.S. in Robotics, UC Riverside</p>
+
+      <nav class="intro-nav" aria-label="Cover navigation">
+        <a href="#about">About</a>
+        <a href="#news">News</a>
+        <a href="#publications">Publications</a>
+        <a href="#projects">Projects</a>
+        <a href="#teaching">Teaching</a>
+        <a href="#awards">Awards</a>
+        <a href="#cv">CV</a>
+      </nav>
+
+      <ul class="intro-social" id="intro-social" aria-label="Social links"></ul>
+    </div>
+
+    <a href="#about" class="scroll-cue" aria-label="Scroll to content">
+      <span class="scroll-cue-text">Scroll</span>
+      <span class="scroll-cue-arrow" aria-hidden="true">↓</span>
+    </a>
+  </header>
+
+  <!-- ==================== TOP NAV ==================== -->
+  <nav class="topnav" aria-label="Primary navigation">
+    <a class="topnav-brand" href="#about" aria-label="Back to top">Hefeifei Jiang</a>
+    <ul class="topnav-links">
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#news" class="nav-link">News</a></li>
+      <li><a href="#publications" class="nav-link">Publications</a></li>
+      <li><a href="#projects" class="nav-link">Projects</a></li>
+      <li><a href="#teaching" class="nav-link">Teaching</a></li>
+      <li><a href="#awards" class="nav-link">Awards</a></li>
+      <li><a href="#cv" class="nav-link">CV</a></li>
+    </ul>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme">
+      <span class="theme-icon theme-icon-light">☀</span>
+      <span class="theme-icon theme-icon-dark">☾</span>
+    </button>
+  </nav>
+
+  <!-- ==================== HOMEPAGE ==================== -->
+  <div class="layout">
+    <!-- ---------- SIDEBAR ---------- -->
+    <aside class="sidebar" id="sidebar">
+      <img class="avatar" src="assets/img/avatar.jpg" alt="Portrait of Hefeifei Jiang" />
+      <div class="identity">
+        <!-- ============ 改这里：姓名 / 头衔 / 机构 ============ -->
+        <p class="name">Hefeifei Jiang</p>
+        <p class="tagline">M.S. in Robotics</p>
+        <p class="affiliation">University of California, Riverside<br />Researcher @ TASL · Advised by Jiachen Li</p>
+      </div>
+
+      <ul class="social" id="social-links" aria-label="Social links"></ul>
+
+      <!-- Research Interests -->
+      <div class="interests-box">
+        <h2 class="interests-title">Research Interests</h2>
+        <ul class="interests-list">
+          <li>Embodied AI</li>
+          <li>Robot Learning</li>
+          <li>Vision-Language Models</li>
+          <li>Multi-Agent Systems</li>
+          <li>Reinforcement Learning</li>
+        </ul>
+      </div>
+
+      <div class="sidebar-footer">
+        <span class="sidebar-credit">Last updated <span id="last-updated">2026</span></span>
+      </div>
+    </aside>
+
+    <!-- ---------- CONTENT ---------- -->
+    <main class="content" id="content">
+
+      <!-- About -->
+      <section id="about" class="section">
+        <h2 class="section-title reveal">About</h2>
+        <!-- ============ 改这里：自我介绍正文（导师/机构可用 <span class="hl">…</span> 高亮成金色） ============ -->
+        <p class="reveal">
+          Hi! I am <strong>Hefeifei Jiang</strong> (姜何飞飞), a Master's student
+          in Robotics at the <span class="hl">University of California, Riverside</span>,
+          where I work at the
+          <a href="https://tasl.ucr.edu/" target="_blank" rel="noopener">Trustworthy Autonomous Systems Laboratory (TASL)</a>,
+          advised by Professor
+          <a href="https://jiachenli94.github.io/" target="_blank" rel="noopener">Jiachen Li</a>.
+        </p>
+        <p class="reveal">
+          My research centers on <strong>embodied AI</strong> and
+          <strong>robot learning</strong> — spanning vision-language agents,
+          multi-agent systems, and reinforcement learning for autonomous
+          vehicles and mobile robots. I am drawn to building agents that
+          perceive, reason about, and safely act in the physical world
+          alongside people.
+        </p>
+        <p class="reveal">
+          Earlier, I earned a first-class B.Eng. in Computer Science through a
+          joint program of <span class="hl">Shaanxi University of Science &amp; Technology</span>
+          and <span class="hl">Ulster University</span>.
+        </p>
+        <p class="reveal">
+          I am applying to PhD programs. Feel free to
+          <a href="mailto:hjian105@ucr.edu">reach out</a> — I am always happy to
+          chat about research.
+        </p>
+      </section>
+
+      <!-- News -->
+      <section id="news" class="section">
+        <h2 class="section-title reveal">News</h2>
+        <ul class="news-list" id="news-list"></ul>
+      </section>
+
+      <!-- Publications -->
+      <section id="publications" class="section">
+        <h2 class="section-title reveal">Publications</h2>
+        <p class="section-note reveal">
+          <sup>*</sup> denotes equal contribution. Selected works shown; see my
+          <a href="#cv">CV</a> for the full list.
+        </p>
+        <div class="pub-list" id="pub-list"></div>
+      </section>
+
+      <!-- Projects -->
+      <section id="projects" class="section">
+        <h2 class="section-title reveal">Projects</h2>
+        <div class="project-grid" id="project-grid"></div>
+      </section>
+
+      <!-- Teaching -->
+      <section id="teaching" class="section">
+        <h2 class="section-title reveal">Teaching</h2>
+        <ul class="teaching-list" id="teaching-list"></ul>
+      </section>
+
+      <!-- Honors & Awards -->
+      <section id="awards" class="section">
+        <h2 class="section-title reveal">Honors &amp; Awards</h2>
+        <ul class="news-list" id="awards-list"></ul>
+      </section>
+
+      <!-- CV -->
+      <section id="cv" class="section">
+        <h2 class="section-title reveal">CV</h2>
+        <p class="reveal">A full PDF version of my curriculum vitae is available below.</p>
+        <p class="reveal">
+          <!-- ============ 改这里：把 CV 放到 assets/cv/cv.pdf ============ -->
+          <a class="button" href="assets/cv/cv.pdf" target="_blank" rel="noopener">⬇ Download CV (PDF)</a>
+        </p>
+      </section>
+
+      <footer class="page-footer">
+        <p>© <span id="year">2026</span> Hefeifei Jiang · Built from scratch with GSAP, hosted on GitHub Pages.</p>
+      </footer>
+    </main>
+  </div>
+
+  <!-- 内容数据（日常更新主要改这个文件） -->
+  <script src="assets/js/data.js"></script>
+  <!-- 渲染 + 交互 + GSAP 动画（一般不用动） -->
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

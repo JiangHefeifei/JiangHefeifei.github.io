@@ -1,0 +1,10 @@
+# macOS
+.DS_Store
+
+# Local-only source assets (NOT used by the deployed site)
+/IMG_3520.HEIC
+/JiangHefeifei.jpg
+/JiangHefeifei_CV.pdf
+/robotic-arm.png
+/assets/img/favicon.svg
+/assets/pub_figure/*.pdf
