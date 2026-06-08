@@ -48,7 +48,7 @@
       <nav class="intro-nav" aria-label="Cover navigation">
         <a href="#about">About</a>
         <a href="#news">News</a>
-        <a href="#publications">Research</a>
+        <a href="#publications">Publications</a>
         <a href="#projects">Projects</a>
         <a href="#teaching">Teaching</a>
         <a href="#awards">Awards</a>
@@ -70,7 +70,7 @@
     <ul class="topnav-links">
       <li><a href="#about" class="nav-link">About</a></li>
       <li><a href="#news" class="nav-link">News</a></li>
-      <li><a href="#publications" class="nav-link">Research</a></li>
+      <li><a href="#publications" class="nav-link">Publications</a></li>
       <li><a href="#projects" class="nav-link">Projects</a></li>
       <li><a href="#teaching" class="nav-link">Teaching</a></li>
       <li><a href="#awards" class="nav-link">Awards</a></li>
@@ -154,14 +154,13 @@
         <ul class="news-list" id="news-list"></ul>
       </section>
 
-      <!-- Publications -->
+      <!-- Selected Publications -->
       <section id="publications" class="section">
-        <h2 class="section-title reveal">Research</h2>
-        <p class="section-note reveal">
-          <sup>*</sup> denotes equal contribution. Selected works shown; see my
-          <a href="#cv">CV</a> for the full list.
-        </p>
-        <div class="pub-list" id="pub-list"></div>
+        <div class="section-head reveal">
+          <h2 class="section-title">Selected Publications</h2>
+          <a class="see-all" href="publications.html">See all publications &rarr;</a>
+        </div>
+        <div class="pub-list" id="pub-list" data-mode="selected"></div>
       </section>
 
       <!-- Projects -->
@@ -200,6 +199,7 @@
 
   <!-- 内容数据（日常更新主要改这个文件） -->
   <script src="assets/js/data.js"></script>
+  <script src="assets/js/pub-cards.js"></script>
   <!-- 渲染 + 交互 + GSAP 动画（一般不用动） -->
   <script src="assets/js/main.js"></script>
 </body>

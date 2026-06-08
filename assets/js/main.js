@@ -405,7 +405,7 @@
     const data = window.SITE_DATA || (typeof SITE_DATA !== "undefined" ? SITE_DATA : {});
     renderSocial(data);
     renderNews(data);
-    renderPublications(data);
+    window.renderPubCards(document.querySelector("#pub-list"), data);
     renderProjects(data);
     renderTeaching(data);
     renderAwards(data);

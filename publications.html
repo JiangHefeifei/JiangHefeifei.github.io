@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Publications — Hefeifei Jiang</title>
+  <meta name="description" content="Full list of publications, preprints, and patents by Hefeifei Jiang." />
+
+  <link rel="icon" type="image/png" sizes="any" href="assets/img/favicon.png?v=3" />
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png?v=3" />
+  <meta name="theme-color" content="#0f172a" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <!-- set theme before paint (no flash) -->
+  <script>
+    (function () {
+      var s = localStorage.getItem("theme");
+      document.documentElement.setAttribute(
+        "data-theme",
+        s || (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+      );
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#pub-list">Skip to content</a>
+
+  <nav class="topnav" aria-label="Primary navigation">
+    <a class="topnav-brand" href="index.html">Hefeifei Jiang</a>
+    <ul class="topnav-links">
+      <li><a href="index.html">&larr; Home</a></li>
+    </ul>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme">
+      <span class="theme-icon theme-icon-light">☀</span>
+      <span class="theme-icon theme-icon-dark">☾</span>
+    </button>
+  </nav>
+
+  <main class="pubs-main">
+    <h1 class="section-title">Publications</h1>
+    <p class="section-note">Peer-reviewed papers, preprints under review, and patents.</p>
+    <div class="pub-list" id="pub-list" data-mode="all"></div>
+  </main>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/pub-cards.js"></script>
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var btn = document.getElementById("theme-toggle");
+      if (btn) btn.addEventListener("click", function () {
+        var n = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", n);
+        localStorage.setItem("theme", n);
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+        window.renderPubCards(document.getElementById("pub-list"), window.SITE_DATA || {});
+      });
+    })();
+  </script>
+</body>
+</html>
