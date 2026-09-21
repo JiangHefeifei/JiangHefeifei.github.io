@@ -174,8 +174,18 @@
     if (btn)
       btn.addEventListener("click", () => {
         const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
-        root.setAttribute("data-theme", next);
         localStorage.setItem("theme", next);
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (!window.gsap || reduce) { root.setAttribute("data-theme", next); return; }
+        // Tween the palette: snapshot current token values, switch theme, tween to the new values, then clear.
+        const TOKENS = ["--page", "--bg", "--surface-2", "--soft", "--text", "--text-muted", "--border",
+          "--navy", "--navy-soft", "--sidebar-bg", "--accent", "--accent-dark", "--accent-soft", "--accent-contrast"];
+        const read = () => { const cs = getComputedStyle(root), o = {}; TOKENS.forEach((t) => (o[t] = cs.getPropertyValue(t).trim())); return o; };
+        const from = read();
+        root.setAttribute("data-theme", next);
+        const to = read();
+        gsap.set(root, from);
+        gsap.to(root, { ...to, duration: 0.45, ease: "power2.inOut", onComplete: () => gsap.set(root, { clearProps: TOKENS.join(",") }) });
       });
   }
 
@@ -203,6 +213,16 @@
       if (sec) map[id] = a;
     });
     const sections = Object.keys(map).map((id) => document.getElementById(id));
+    if (window.gsap && window.ScrollTrigger) {
+      gsap.registerPlugin(ScrollTrigger);
+      sections.forEach((sec) => {                       // created top-to-bottom, so refresh order is page order
+        ScrollTrigger.create({
+          trigger: sec, start: "top 45%", end: "bottom 45%", refreshPriority: -1,
+          toggleClass: { targets: map[sec.id], className: "active" },
+        });
+      });
+      return;
+    }
     const obs = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
@@ -228,9 +248,10 @@
   }
 
   /* ----------------------------- Animations ----------------------------- */
+  const REVEAL_SEL = ".intro-name, .reveal, .pub-thumb, .pub-body > *, .news-date, .news-body";
   function revealAllNow() {
-    if (window.gsap) gsap.set(".intro-name, .reveal", { autoAlpha: 1, clearProps: "all" });
-    document.querySelectorAll(".intro-name, .reveal").forEach((el) => (el.style.visibility = "visible"));
+    if (window.gsap) gsap.set(REVEAL_SEL, { autoAlpha: 1, clearProps: "all" });
+    document.querySelectorAll(REVEAL_SEL).forEach((el) => (el.style.visibility = "visible"));
   }
 
   function initAnimations() {
@@ -282,6 +303,7 @@
             .addLabel("nav", "meta+=0.3")
             .from(".intro-nav a", { autoAlpha: 0, y: 14, duration: 0.5, stagger: { amount: 0.45, from: "start" } }, "nav")
             .from(".intro-social a", { autoAlpha: 0, y: 12, duration: 0.5, stagger: 0.06 }, "nav+=0.35");
+          window.__introTimeline = tl;                  // initIntroDismiss reverses it on menu click
 
           /* ---- Pointer parallax on the text block (desktop only), outside the render loop ---- */
           if (isDesktop) {
@@ -312,9 +334,43 @@
             scrollTrigger: { trigger: ".layout", start: "top 65%" },
           });
 
-          /* Content blocks fade up in batches as they enter the viewport */
-          gsap.set(".reveal", { autoAlpha: 0, y: 26 });
-          ScrollTrigger.batch(".reveal", {
+          /* Publication cards: figure slides in from the left, then title / authors / venue cascade */
+          const PUB = ".pub-item";
+          gsap.set(PUB, { autoAlpha: 0, y: 18 });
+          gsap.set(PUB + " .pub-thumb", { autoAlpha: 0, x: -24 });
+          gsap.set(PUB + " .pub-body > *", { autoAlpha: 0, y: 12 });
+          ScrollTrigger.batch(PUB, {
+            start: "top 88%",
+            onEnter: (batch) => {
+              const tl = gsap.timeline({ defaults: { ease: "power2.out", overwrite: "auto" } });
+              tl.to(batch, { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.12 }, 0);
+              batch.forEach((card, i) => {
+                const at = i * 0.12 + 0.1;
+                tl.to(card.querySelectorAll(".pub-thumb"), { autoAlpha: 1, x: 0, duration: 0.7 }, at)
+                  .to(card.querySelectorAll(".pub-body > *"), { autoAlpha: 1, y: 0, duration: 0.45, stagger: 0.07 }, at + 0.12);
+              });
+            },
+          });
+
+          /* News and awards: date column leads, text follows */
+          const ROW = ".news-item";
+          gsap.set(ROW, { autoAlpha: 0 });
+          gsap.set(ROW + " .news-date", { autoAlpha: 0, x: -10 });
+          gsap.set(ROW + " .news-body", { autoAlpha: 0, y: 8 });
+          ScrollTrigger.batch(ROW, {
+            start: "top 90%",
+            onEnter: (batch) => {
+              const tl = gsap.timeline({ defaults: { ease: "power2.out", overwrite: "auto" } });
+              tl.to(batch, { autoAlpha: 1, duration: 0.3, stagger: 0.05 }, 0)
+                .to(batch.map((r) => r.querySelector(".news-date")), { autoAlpha: 1, x: 0, duration: 0.45, stagger: 0.05 }, 0)
+                .to(batch.map((r) => r.querySelector(".news-body")), { autoAlpha: 1, y: 0, duration: 0.45, stagger: 0.05 }, 0.12);
+            },
+          });
+
+          /* Everything else fades up in batches as it enters the viewport */
+          const GEN = ".reveal:not(.pub-item):not(.news-item)";
+          gsap.set(GEN, { autoAlpha: 0, y: 26 });
+          ScrollTrigger.batch(GEN, {
             start: "top 88%",
             onEnter: (batch) =>
               gsap.to(batch, { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.08, ease: "power2.out", overwrite: true }),
@@ -393,15 +449,19 @@
     }, { threshold: 0 });
     introIO.observe(intro);
 
-    // cover menu / scroll cue: drop the cover, then jump to the target section
+    // cover menu: play the entrance in reverse (fast), then drop the cover and go to the section
     intro.querySelectorAll(".intro-nav a").forEach((a) => {
       a.addEventListener("click", (e) => {
         const href = a.getAttribute("href") || "";
         if (href.charAt(0) !== "#") return;
         e.preventDefault();
         const target = document.querySelector(href);
-        dismiss(0);
-        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+        const go = () => { dismiss(0); if (target) target.scrollIntoView({ behavior: "smooth", block: "start" }); };
+        const tl = window.__introTimeline;
+        if (tl && !dismissed) {
+          intro.style.pointerEvents = "none";
+          tl.timeScale(2.4).reverse().then(go);
+        } else go();
       });
     });
   }
