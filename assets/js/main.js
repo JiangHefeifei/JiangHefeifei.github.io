@@ -239,45 +239,69 @@
       gsap.registerPlugin(ScrollTrigger);
       if (window.SplitText) gsap.registerPlugin(SplitText);
 
+      gsap.defaults({ ease: "power3.out", duration: 0.7 });
+      const COVER = window.COVER || { dist: 1, alpha: 1, orbit: 0, sweep: null };
+
       const mm = gsap.matchMedia();
       mm.add(
         {
           reduce: "(prefers-reduced-motion: reduce)",
           motion: "(prefers-reduced-motion: no-preference)",
+          isDesktop: "(min-width: 1024px)",
         },
         (ctx) => {
-          if (ctx.conditions.reduce) {
+          const { reduce, isDesktop } = ctx.conditions;
+          if (reduce) {
             revealAllNow();
             return;
           }
 
-          /* Intro cover: avatar → name (per-char mask reveal) → divider → subtitle → menu → socials */
+          /* ---- Cover entrance: one timeline with labels ----
+             scene  : point cloud fades in while the camera dollies in; a scan sweep crosses once
+             avatar : pops in with a slight overshoot
+             name   : per-character masked rise (SplitText), left-to-right
+             meta   : divider draws, subtitle rises
+             nav    : menu items and social icons cascade in                           */
           const nameEl = $(".intro-name");
-          const playIntro = () => {
-            gsap.set(nameEl, { autoAlpha: 1 });
-            const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-            tl.from(".intro-avatar", { autoAlpha: 0, scale: 0.8, duration: 0.7 });
-            if (window.SplitText) {
-              const split = SplitText.create(nameEl, { type: "chars", mask: "chars" });
-              tl.from(split.chars, { yPercent: 120, duration: 0.9, stagger: 0.04 }, "-=0.2");
-            } else {
-              tl.from(nameEl, { autoAlpha: 0, y: 40, duration: 1 }, "-=0.2");
-            }
-            tl.from(".intro-divider", { scaleX: 0, duration: 0.5 }, "-=0.25")
-              .from(".intro-subtitle", { autoAlpha: 0, y: 16, duration: 0.6 }, "-=0.2")
-              .from(".intro-nav a", { autoAlpha: 0, y: 14, duration: 0.5, stagger: 0.08 }, "-=0.15")
-              .from(".intro-social", { autoAlpha: 0, y: 12, duration: 0.5 }, "-=0.2");
-            ScrollTrigger.refresh();
-          };
-          playIntro();
+          gsap.set(nameEl, { autoAlpha: 1 });
+          const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+          tl.addLabel("scene", 0)
+            .fromTo(COVER, { dist: 1.35, alpha: 0 }, { dist: 1, alpha: 1, duration: 1.8, ease: "expo.out" }, "scene")
+            .fromTo(COVER, { sweep: -2.6 }, { sweep: 2.6, duration: 1.5, ease: "power2.inOut", onComplete: () => { COVER.sweep = null; } }, "scene+=0.2")
+            .addLabel("avatar", "scene+=0.35")
+            .from(".intro-avatar", { autoAlpha: 0, scale: 0.6, duration: 0.8, ease: "back.out(1.7)" }, "avatar")
+            .addLabel("name", "avatar+=0.25");
+          if (window.SplitText) {
+            const split = SplitText.create(nameEl, { type: "chars", mask: "chars" });
+            tl.from(split.chars, { yPercent: 120, duration: 0.9, stagger: { each: 0.035, from: "start" } }, "name");
+          } else {
+            tl.from(nameEl, { autoAlpha: 0, y: 40, duration: 1 }, "name");
+          }
+          tl.addLabel("meta", "name+=0.45")
+            .from(".intro-divider", { scaleX: 0, transformOrigin: isDesktop ? "left center" : "center center", duration: 0.5 }, "meta")
+            .from(".intro-subtitle", { autoAlpha: 0, y: 16, duration: 0.6 }, "meta+=0.1")
+            .addLabel("nav", "meta+=0.3")
+            .from(".intro-nav a", { autoAlpha: 0, y: 14, duration: 0.5, stagger: { amount: 0.45, from: "start" } }, "nav")
+            .from(".intro-social a", { autoAlpha: 0, y: 12, duration: 0.5, stagger: 0.06 }, "nav+=0.35");
 
-          /* Intro dissolves upward as you scroll past it */
-          gsap.to(".intro-inner", {
-            yPercent: -24,
-            autoAlpha: 0,
-            ease: "none",
+          /* ---- Pointer parallax on the text block (desktop only), outside the render loop ---- */
+          if (isDesktop) {
+            const px = gsap.quickTo(".intro-inner", "x", { duration: 0.8, ease: "power2.out" });
+            const py = gsap.quickTo(".intro-inner", "y", { duration: 0.8, ease: "power2.out" });
+            const introEl = document.getElementById("intro");
+            if (introEl) introEl.addEventListener("pointermove", (e) => {
+              px((e.clientX / window.innerWidth - 0.5) * -14);
+              py((e.clientY / window.innerHeight - 0.5) * -10);
+            });
+          }
+
+          /* ---- Scroll exit: scrubbed top-level timeline; text lifts away, cloud dissolves, camera pulls back ---- */
+          gsap.timeline({
             scrollTrigger: { trigger: "#intro", start: "top top", end: "bottom top", scrub: true },
-          });
+            defaults: { ease: "none" },
+          })
+            .to(".intro-inner", { yPercent: -24, autoAlpha: 0 }, 0)
+            .to(COVER, { alpha: 0, dist: 1.3, orbit: 0.12 }, 0);
 
           /* Sidebar slides in as the homepage appears */
           gsap.from(".sidebar > *", {
@@ -398,7 +422,9 @@
     initScrollSpy();
     setDates();
     initCoverPhotos();
-    initAnimations();
+    // SplitText measures glyphs: start the choreography once web fonts are ready (falls back after 1.5 s)
+    const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
+    Promise.race([fontsReady, new Promise((r) => setTimeout(r, 1500))]).then(initAnimations);
     initIntroDismiss();
   });
 })();

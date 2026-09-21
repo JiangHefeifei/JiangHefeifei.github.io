@@ -11,8 +11,11 @@
    Requires THREE (three.min.js) loaded before this file. No build step.
    Respects prefers-reduced-motion (static frame) and pauses off-screen.
    ========================================================================= */
+// Scene controls that main.js animates with GSAP (dolly, fade, scan sweep, orbit nudge).
+window.COVER = { dist: 1, alpha: 1, orbit: 0, sweep: null };
 (function () {
   "use strict";
+  const C = window.COVER;
   const canvas = document.getElementById("cover-canvas");
   const intro = document.getElementById("intro");
   if (!canvas || !intro || !window.THREE) return;
@@ -27,7 +30,7 @@
   const scene = new T.Scene();
   const camera = new T.PerspectiveCamera(38, 1, 0.1, 50);
   const camTarget = new T.Vector3(0.15, 0.98, 0);
-  const camOrbit = 0.30, camPitch = 0.42; let camDist = 3.3, shift = 0;
+  const camOrbit = 0.30, camPitch = 0.42; let camDist = 3.3, shift = 0, baseAlpha = 0.9;
   const pointer = { x: 0, y: 0 };
 
   function resize() {
@@ -37,7 +40,7 @@
     camDist = w < 640 ? 4.9 : w < 1024 ? 3.9 : 3.0;
     shift = w < 1024 ? 0 : 1.05;                       // metres of screen-right offset
     camTarget.y = w < 640 ? 1.30 : 0.98;               // phones: push the scene below the text
-    uniforms.uAlpha.value = w < 640 ? 0.55 : 0.9;      // phones: keep the menu readable over the cloud
+    baseAlpha = w < 640 ? 0.55 : 0.9;                  // phones: keep the menu readable over the cloud
   }
 
   /* ---------------- point-cloud material ---------------- */
@@ -283,13 +286,16 @@
     if (!running) return;
     const dt = Math.min(0.05, (now - last) / 1000); last = now;
     if (!reduce) { step(dt, now); pushTrail(); }
-    sweep += dt * 0.55; if (sweep > 2.6) sweep = -2.6; uniforms.uSweep.value = sweep;
-    const orbit = camOrbit + Math.sin(now * 0.00012) * 0.18 + pointer.x * 0.16;
+    sweep += dt * 0.55; if (sweep > 2.6) sweep = -2.6;
+    uniforms.uSweep.value = C.sweep == null ? sweep : C.sweep;     // GSAP-driven scan on load
+    uniforms.uAlpha.value = baseAlpha * C.alpha;
+    const orbit = camOrbit + C.orbit + Math.sin(now * 0.00012) * 0.18 + pointer.x * 0.16;
     const pitch = camPitch + pointer.y * 0.08;
+    const dist = camDist * C.dist;
     camera.position.set(
-      camTarget.x + camDist * Math.cos(pitch) * Math.sin(orbit),
-      camTarget.y + camDist * Math.sin(pitch),
-      camTarget.z + camDist * Math.cos(pitch) * Math.cos(orbit));
+      camTarget.x + dist * Math.cos(pitch) * Math.sin(orbit),
+      camTarget.y + dist * Math.sin(pitch),
+      camTarget.z + dist * Math.cos(pitch) * Math.cos(orbit));
     camera.lookAt(camTarget);
     if (shift) {                                        // slide the framing so the scene sits right of the text
       camera.updateMatrixWorld();
