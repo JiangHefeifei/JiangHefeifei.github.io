@@ -105,9 +105,9 @@ const SITE_DATA = {
       venue: "Applied Sciences",
       year: "2022",
       award: "",
-      summary: "",
-      image: null,
-      links: [{ label: "DOI", href: "https://doi.org/10.3390/app121910152" }],
+      summary: "Extracts gender-discriminative features from fingerprint images with an autoencoder (DDC-ResNet) and visualizes them via class activation mapping.",
+      image: "assets/pub_figure/fingerprint-gender.png",
+      links: [{ label: "Paper", href: "https://doi.org/10.3390/app121910152" }],
     },
     {
       group: "Earlier Publications",
@@ -116,9 +116,9 @@ const SITE_DATA = {
       venue: "Symmetry",
       year: "2022",
       award: "",
-      summary: "",
-      image: null,
-      links: [],
+      summary: "A ConvLSTM time-series forecaster coupled with economic indicators and a decision-tree evaluation model for gold and Bitcoin trading decisions.",
+      image: "assets/pub_figure/convlstm-trading.png",
+      links: [{ label: "Paper", href: "https://doi.org/10.3390/sym14091896" }],
     },
     /* —— 专利 —— */
     {
