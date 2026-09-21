@@ -26,15 +26,18 @@
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
   const scene = new T.Scene();
   const camera = new T.PerspectiveCamera(38, 1, 0.1, 50);
-  const camTarget = new T.Vector3(0.25, 1.02, 0);
-  const camOrbit = 0.62, camPitch = 0.36; let camDist = 3.1;
+  const camTarget = new T.Vector3(0.15, 0.98, 0);
+  const camOrbit = 0.30, camPitch = 0.42; let camDist = 3.3, shift = 0;
   const pointer = { x: 0, y: 0 };
 
   function resize() {
     const w = intro.clientWidth, h = intro.clientHeight;
     renderer.setSize(w, h, false);
     camera.aspect = w / h; camera.updateProjectionMatrix();
-    camDist = w < 640 ? 4.6 : w < 1024 ? 3.7 : 3.1;
+    camDist = w < 640 ? 4.9 : w < 1024 ? 3.9 : 3.0;
+    shift = w < 1024 ? 0 : 1.05;                       // metres of screen-right offset
+    camTarget.y = w < 640 ? 1.30 : 0.98;               // phones: push the scene below the text
+    uniforms.uAlpha.value = w < 640 ? 0.55 : 0.9;      // phones: keep the menu readable over the cloud
   }
 
   /* ---------------- point-cloud material ---------------- */
@@ -104,7 +107,7 @@
 
   /* ---------------- floor + table ---------------- */
   { const p = []; for (let i = 0; i < 9000; i++) p.push((rnd() - 0.5) * 7, 0, (rnd() - 0.5) * 7); scene.add(cloud(p, 0.45)); }
-  const TABLE = { x: 0.15, z: 0, w: 1.7, d: 1.0, h: 0.72 };
+  const TABLE = { x: 0.15, z: 0, w: 1.9, d: 1.0, h: 0.72 };
   {
     const p = [];
     for (let i = 0; i < 9000; i++) p.push(TABLE.x + (rnd() - 0.5) * TABLE.w, TABLE.h, TABLE.z + (rnd() - 0.5) * TABLE.d);
@@ -116,7 +119,7 @@
 
   /* ---------------- arm (base yaw, shoulder, elbow, wrist pitch, gripper) ---------------- */
   const L = { base: 0.10, l1: 0.34, l2: 0.30, l3: 0.11, grip: 0.06 };
-  const BASE = new T.Vector3(-0.45, TABLE.h, 0.05);
+  const BASE = new T.Vector3(-0.62, TABLE.h, 0.0);
   const arm = new T.Group(); arm.position.copy(BASE); scene.add(arm);
   { const p = []; cylY(0.09, L.base, 1400, p, 0, 0, 0); cylY(0.055, 0.06, 500, p, 0, L.base, 0); arm.add(cloud(p)); }
   const j0 = new T.Group(); j0.position.y = L.base + 0.06; arm.add(j0);      // yaw about Y
@@ -166,8 +169,8 @@
     g.userData = { size, home: new T.Vector3(x, TABLE.h, z), edges, done: false };
     scene.add(g); objects.push(g); return g;
   }
-  makeObject("box", 0.05, -0.28); makeObject("cyl", 0.30, -0.10); makeObject("box", 0.42, 0.22); makeObject("cyl", 0.12, 0.30);
-  const PLACE = new T.Vector3(0.68, TABLE.h, -0.30);
+  makeObject("box", -0.15, -0.28); makeObject("cyl", 0.12, -0.12); makeObject("box", 0.22, 0.24); makeObject("cyl", -0.10, 0.30);
+  const PLACE = new T.Vector3(0.62, TABLE.h, -0.22);
   { const p = []; for (let i = 0; i < 400; i++) { const a = rnd() * 6.2832, rr = 0.11 + rnd() * 0.01; p.push(PLACE.x + rr * Math.cos(a), TABLE.h + 0.002, PLACE.z + rr * Math.sin(a)); } scene.add(cloud(p, 0.1)); }
 
   /* ---------------- policy rollouts + end-effector trail ---------------- */
@@ -222,7 +225,7 @@
   }
 
   /* ---------------- behaviour: plan → move → grasp → lift → plan → move → release ---------------- */
-  const HOVER = 0.16;
+  const HOVER = 0.12;
   let state = "plan", stateT = 0, held = null, objIdx = 0, placed = 0, pathDur = 2;
   const cur = new T.Vector3(BASE.x + 0.35, TABLE.h + 0.35, BASE.z);
   const pathFrom = new T.Vector3(), pathTo = new T.Vector3();
@@ -288,6 +291,12 @@
       camTarget.y + camDist * Math.sin(pitch),
       camTarget.z + camDist * Math.cos(pitch) * Math.cos(orbit));
     camera.lookAt(camTarget);
+    if (shift) {                                        // slide the framing so the scene sits right of the text
+      camera.updateMatrixWorld();
+      const right = new T.Vector3().setFromMatrixColumn(camera.matrixWorld, 0);
+      camera.position.addScaledVector(right, -shift);
+      camera.lookAt(camTarget.clone().addScaledVector(right, -shift));
+    }
     renderer.render(scene, camera);
     if (!reduce) raf = requestAnimationFrame(frame);
   }

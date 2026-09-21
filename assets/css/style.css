@@ -155,6 +155,17 @@ h1, h2, h3 { line-height: 1.25; }
 .intro-social a:hover { color: var(--accent); opacity: 1; transform: translateY(-2px); text-decoration: none; }
 .intro-social svg { width: 20px; height: 20px; fill: currentColor; }
 
+/* Desktop: name + menu left, point-cloud scene framed on the right */
+@media (min-width: 1024px) {
+  .intro { justify-content: flex-start; text-align: left; padding: 48px 8vw; }
+  .intro-inner { max-width: 640px; }
+  .intro-name { font-size: clamp(2.6rem, 4.6vw, 4.4rem); white-space: nowrap; }
+  .intro-avatar { margin-left: 0; }
+  .intro-divider { margin-left: 0; }
+  .intro-nav { flex-direction: row; flex-wrap: wrap; justify-content: flex-start; gap: 8px 22px; margin-top: 30px; }
+  .intro-social { justify-content: flex-start; }
+}
+
 /* --------------------------- Layout (card) ------------------------------ */
 .layout {
   display: flex;
