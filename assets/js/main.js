@@ -240,7 +240,7 @@
       if (window.SplitText) gsap.registerPlugin(SplitText);
 
       gsap.defaults({ ease: "power3.out", duration: 0.7 });
-      const COVER = window.COVER || { dist: 1, alpha: 1, orbit: 0, sweep: null };
+      const COVER = window.COVER || { amp: 1, alpha: 1, dist: 1, orbit: 0 };
 
       const mm = gsap.matchMedia();
       mm.add(
@@ -257,7 +257,7 @@
           }
 
           /* ---- Cover entrance: one timeline with labels ----
-             scene  : point cloud fades in while the camera dollies in; a scan sweep crosses once
+             scene  : the lattice rises from a flat plane while the camera dollies in
              avatar : pops in with a slight overshoot
              name   : per-character masked rise (SplitText), left-to-right
              meta   : divider draws, subtitle rises
@@ -266,8 +266,7 @@
           gsap.set(nameEl, { autoAlpha: 1 });
           const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
           tl.addLabel("scene", 0)
-            .fromTo(COVER, { dist: 1.35, alpha: 0 }, { dist: 1, alpha: 1, duration: 1.8, ease: "expo.out" }, "scene")
-            .fromTo(COVER, { sweep: -2.6 }, { sweep: 2.6, duration: 1.5, ease: "power2.inOut", onComplete: () => { COVER.sweep = null; } }, "scene+=0.2")
+            .fromTo(COVER, { dist: 1.3, alpha: 0, amp: 0 }, { dist: 1, alpha: 1, amp: 1, duration: 2.2, ease: "expo.out" }, "scene")
             .addLabel("avatar", "scene+=0.35")
             .from(".intro-avatar", { autoAlpha: 0, scale: 0.6, duration: 0.8, ease: "back.out(1.7)" }, "avatar")
             .addLabel("name", "avatar+=0.25");
@@ -295,13 +294,13 @@
             });
           }
 
-          /* ---- Scroll exit: scrubbed top-level timeline; text lifts away, cloud dissolves, camera pulls back ---- */
+          /* ---- Scroll exit: scrubbed top-level timeline; text lifts away, lattice flattens and dissolves ---- */
           gsap.timeline({
             scrollTrigger: { trigger: "#intro", start: "top top", end: "bottom top", scrub: true },
             defaults: { ease: "none" },
           })
             .to(".intro-inner", { yPercent: -24, autoAlpha: 0 }, 0)
-            .to(COVER, { alpha: 0, dist: 1.3, orbit: 0.12 }, 0);
+            .to(COVER, { alpha: 0, amp: 0, dist: 1.25, orbit: 0.10 }, 0);
 
           /* Sidebar slides in as the homepage appears */
           gsap.from(".sidebar > *", {
