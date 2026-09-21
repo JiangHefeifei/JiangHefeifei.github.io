@@ -21,7 +21,8 @@
     String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
   function linkButtons(links) {
-    if (!links || !links.length) return "";
+    links = (links || []).filter(function (l) { return l.href && l.href !== "#"; });
+    if (!links.length) return "";
     return (
       '<div class="pub-links">' +
       links

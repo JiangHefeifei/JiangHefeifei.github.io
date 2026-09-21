@@ -211,7 +211,7 @@
     ctx.restore();
     // end-effector glow
     const gl = ctx.createRadialGradient(ee.x, ee.y, 0, ee.x, ee.y, 22);
-    gl.addColorStop(0, `rgba(${CYAN}, 0.35)`); gl.addColorStop(1, `rgba(${CYAN}, 0)`);
+    gl.addColorStop(0, `rgba(${CYAN}, 0.22)`); gl.addColorStop(1, `rgba(${CYAN}, 0)`);
     ctx.fillStyle = gl; ctx.beginPath(); ctx.arc(ee.x, ee.y, 22, 0, Math.PI * 2); ctx.fill();
 
     // target reticle
@@ -228,24 +228,6 @@
     ctx.restore();
   }
 
-  function drawHUD(time) {
-    ctx.save();
-    ctx.strokeStyle = `rgba(${ACCENT}, 0.35)`; ctx.lineWidth = 1;
-    const m = 22, l = 26;
-    [[m, m, 1, 1], [W - m, m, -1, 1], [m, H - m, 1, -1], [W - m, H - m, -1, -1]].forEach(([x, y, sx, sy]) => {
-      ctx.beginPath(); ctx.moveTo(x, y + sy * l); ctx.lineTo(x, y); ctx.lineTo(x + sx * l, y); ctx.stroke();
-    });
-    if (W < 640) { ctx.restore(); return; }
-    ctx.font = "10px ui-monospace, SFMono-Regular, Menlo, monospace";
-    ctx.fillStyle = `rgba(${ACCENT}, 0.5)`;
-    ctx.textAlign = "left";
-    ctx.fillText("HUMAN-IN-THE-LOOP  ·  ROBOT LEARNING  ·  MANIPULATION", m + 8, m + l + 14);
-    ctx.textAlign = "right";
-    const s = ((time - t0) / 1000).toFixed(1).padStart(7, "0");
-    ctx.fillText("T+" + s + "s", W - m - 8, m + l + 14);
-    ctx.restore();
-  }
-
   /* ---------------- Loop ---------------- */
   let raf = 0, running = true;
   function frame(now) {
@@ -258,7 +240,6 @@
       if (!reduce) ccd(arm, tg);
       drawArm(arm, tg, now);
     }
-    drawHUD(now);
     if (!reduce) raf = requestAnimationFrame(frame);
   }
 

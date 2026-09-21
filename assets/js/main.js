@@ -120,14 +120,14 @@
     el.innerHTML = data.projects
       .map((p) => {
         const media = p.image
-          ? `<img src="${p.image}" alt="${esc(p.title)}" loading="lazy" />`
-          : `<span class="project-media-placeholder">PREVIEW</span>`;
+          ? `<div class="project-media"><img src="${p.image}" alt="${esc(p.title)}" loading="lazy" /></div>`
+          : "";
         const tags = (p.tags || [])
           .map((t) => `<span>${esc(t)}</span>`)
           .join("");
         return (
           `<article class="project-card reveal">` +
-          `<div class="project-media">${media}</div>` +
+          media +
           `<div class="project-info">` +
           `<h3>${esc(p.title)}</h3>` +
           `<p>${esc(p.description)}</p>` +
@@ -266,8 +266,7 @@
             tl.from(".intro-divider", { scaleX: 0, duration: 0.5 }, "-=0.25")
               .from(".intro-subtitle", { autoAlpha: 0, y: 16, duration: 0.6 }, "-=0.2")
               .from(".intro-nav a", { autoAlpha: 0, y: 14, duration: 0.5, stagger: 0.08 }, "-=0.15")
-              .from(".intro-social", { autoAlpha: 0, y: 12, duration: 0.5 }, "-=0.2")
-              .from(".scroll-cue", { autoAlpha: 0, y: 10, duration: 0.6 }, "-=0.2");
+              .from(".intro-social", { autoAlpha: 0, y: 12, duration: 0.5 }, "-=0.2");
             ScrollTrigger.refresh();
           };
           playIntro();
@@ -364,13 +363,15 @@
       }
     }
 
-    window.addEventListener("scroll", function onScroll() {
-      if (dismissed) { window.removeEventListener("scroll", onScroll); return; }
-      if ((window.scrollY || window.pageYOffset || 0) >= introH - 1) dismiss();
-    }, { passive: true });
+    // Dismiss once the cover has fully left the viewport (no scroll listener).
+    const introIO = new IntersectionObserver((entries) => {
+      if (dismissed) { introIO.disconnect(); return; }
+      if (!entries[0].isIntersecting) { introIO.disconnect(); dismiss(); }
+    }, { threshold: 0 });
+    introIO.observe(intro);
 
     // cover menu / scroll cue: drop the cover, then jump to the target section
-    intro.querySelectorAll(".intro-nav a, .scroll-cue").forEach((a) => {
+    intro.querySelectorAll(".intro-nav a").forEach((a) => {
       a.addEventListener("click", (e) => {
         const href = a.getAttribute("href") || "";
         if (href.charAt(0) !== "#") return;

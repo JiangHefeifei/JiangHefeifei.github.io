@@ -21,8 +21,8 @@ const SITE_DATA = {
 
   /* ---------------- News / 动态（最新的放最上面） ---------------- */
   news: [
-    { date: "2026.09", html: '<strong>HiRe-MoMa</strong> accepted to <strong>CoRL 2026</strong>! Two new papers — <strong>AXIS-Bench</strong> (quality-aware VLA pretraining) and the closed-loop human-following work — submitted to <strong>ICRA 2027</strong>.' },
-    { date: "2026.05", html: 'Three papers — <strong>CoopLight</strong>, <strong>HiRe-MoMa</strong>, and a closed-loop human-following work — submitted to <strong>NeurIPS 2026</strong> / <strong>CoRL 2026</strong>.' },
+    { date: "2026.09", html: '<strong>HiRe-MoMa</strong> accepted to <strong>CoRL 2026</strong>. Two new papers submitted to <strong>ICRA 2027</strong>: <strong>AXIS-Bench</strong> on quality-aware VLA pretraining, and the closed-loop human-following work.' },
+    { date: "2026.05", html: 'Three papers submitted, <strong>CoopLight</strong>, <strong>HiRe-MoMa</strong>, and a closed-loop human-following work, to <strong>NeurIPS 2026</strong> / <strong>CoRL 2026</strong>.' },
     { date: "2026.04", html: 'Serving as <strong>Grader</strong> for <em>CS170: Introduction to Artificial Intelligence</em> at UC Riverside.' },
     { date: "2025.10", html: 'Joined the <strong>Trustworthy Autonomous Systems Laboratory (TASL)</strong>, advised by Prof. Jiachen Li.' },
     { date: "2025.09", html: 'Started my <strong>M.S. in Robotics</strong> at the University of California, Riverside.' },
@@ -45,7 +45,7 @@ const SITE_DATA = {
       venue: "Conference on Robot Learning (CoRL) 2026",
       year: "",
       award: "",
-      summary: "HiRe-MoMa fine-tunes a frozen base policy via a hierarchical residual architecture and expert-guided value alignment, enabling stable, sample-efficient on-robot learning for mobile manipulation on a TIAGo++ with under 20% human guidance.",
+      summary: "",
       image: "assets/pub_figure/hiremoma.png",
       links: [
         { label: "Paper",   href: "#" },
@@ -61,7 +61,7 @@ const SITE_DATA = {
       venue: "Conference on Neural Information Processing Systems (NeurIPS) 2026",
       year: "",
       award: "Under Review",
-      summary: "A vision-language framework where infrastructure- and vehicle-side agents reason over multi-view scenes and exchange semantic reports to control traffic signals and connected vehicles in safety-critical, long-tail scenarios.",
+      summary: "",
       image: "assets/pub_figure/cooplight.png",
       links: [
         { label: "Paper",   href: "#" },
@@ -77,7 +77,7 @@ const SITE_DATA = {
       venue: "IEEE International Conference on Robotics and Automation (ICRA) 2027",
       year: "",
       award: "Under Review",
-      summary: "Distills constrained-RL guiding policies into a single preference-conditioned meta-policy, with a closed-loop adaptive mapping for test-time customizable human-following distance and lower collision rates.",
+      summary: "",
       image: "assets/pub_figure/human-following.png",
       links: [
         { label: "Paper",   href: "#" },
@@ -85,15 +85,15 @@ const SITE_DATA = {
         { label: "Project", href: "#" },
       ],
     },
-    /* —— 其他在投 —— */
     {
-      group: "Under Review",
+      group: "Selected Publications",
+      selected: true,
       title: "What Matters in Quality-Aware VLA Pretraining: A Benchmark and Empirical Study",
       authors: 'Mingxuan Yan, Litian Gong, Dihong Huang, Zhixu Li, Tianyu Zhang, Wenqian Zhang, <strong>Hefeifei Jiang</strong>, Peihao Li, Jian Zhang, Mengfei Zhao, Yikai Tang, Hai Zhai, Zehao Wang, Ruijian Liang, Yanjia Huang, Lin Shao, Changliu Liu, Kaiyu Hang, Zhiwen Fan, Masayoshi Tomizuka, Jianfei Yang, Jiachen Li',
       venue: "IEEE International Conference on Robotics and Automation (ICRA) 2027",
       year: "",
       award: "Under Review",
-      summary: "AXIS-Bench: a simulation and real-world benchmark of naturally suboptimal human demonstrations for studying how demonstration quality should be used (weighting, filtering, conditioning) in VLA pretraining.",
+      summary: "",
       image: "assets/pub_figure/axis-bench.png",
       links: [],
     },
@@ -105,7 +105,7 @@ const SITE_DATA = {
       venue: "Applied Sciences",
       year: "2022",
       award: "",
-      summary: "Extracts gender-discriminative features from fingerprint images with an autoencoder (DDC-ResNet) and visualizes them via class activation mapping.",
+      summary: "",
       image: "assets/pub_figure/fingerprint-gender.png",
       links: [{ label: "Paper", href: "https://doi.org/10.3390/app121910152" }],
     },
@@ -116,7 +116,7 @@ const SITE_DATA = {
       venue: "Symmetry",
       year: "2022",
       award: "",
-      summary: "A ConvLSTM time-series forecaster coupled with economic indicators and a decision-tree evaluation model for gold and Bitcoin trading decisions.",
+      summary: "",
       image: "assets/pub_figure/convlstm-trading.png",
       links: [{ label: "Paper", href: "https://doi.org/10.3390/sym14091896" }],
     },
@@ -184,13 +184,13 @@ const SITE_DATA = {
 
   /* ---------------- Honors & Awards / 获奖（最新在前；已精选 CV 中较有分量的） ---------------- */
   awards: [
-    { date: "2024.06", html: '<strong>“Zhi Cheng Zhi Bo” All-Round Excellence Scholarship</strong> — Top 10, university-level' },
-    { date: "2024.04", html: '<strong>Zhou Lian Scholarship</strong> — Top 10 (#1 by points), university-level' },
-    { date: "2022.02", html: '<strong>Meritorious Award</strong> — Mathematical Contest in Modeling (MCM), USA' },
-    { date: "2021.11", html: '<strong>Provincial-Level Approval</strong> — China College Student Innovation &amp; Entrepreneurship Project' },
-    { date: "2021.10", html: '<strong>1st Prize</strong> — 23rd National Robot Championship &amp; 12th International Humanoid Robot Olympics' },
-    { date: "2021.04", html: '<strong>Honorable Mention</strong> — ICPC Asia East-Continent Final' },
-    { date: "2020.08", html: '<strong>Gold Medal</strong> — International Festival of Science and Technology, Tunisia' },
+    { date: "2024.06", html: '<strong>“Zhi Cheng Zhi Bo” All-Round Excellence Scholarship</strong>, Top 10, university-level' },
+    { date: "2024.04", html: '<strong>Zhou Lian Scholarship</strong>, Top 10 (#1 by points), university-level' },
+    { date: "2022.02", html: '<strong>Meritorious Award</strong>, Mathematical Contest in Modeling (MCM), USA' },
+    { date: "2021.11", html: '<strong>Provincial-Level Approval</strong>, China College Student Innovation &amp; Entrepreneurship Project' },
+    { date: "2021.10", html: '<strong>1st Prize</strong>, 23rd National Robot Championship &amp; 12th International Humanoid Robot Olympics' },
+    { date: "2021.04", html: '<strong>Honorable Mention</strong>, ICPC Asia East-Continent Final' },
+    { date: "2020.08", html: '<strong>Gold Medal</strong>, International Festival of Science and Technology, Tunisia' },
   ],
 };
 
