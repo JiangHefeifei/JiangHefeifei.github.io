@@ -246,9 +246,6 @@
           motion: "(prefers-reduced-motion: no-preference)",
         },
         (ctx) => {
-          // base tilt for the cover photo tiles (applies in both reduced & full motion)
-          gsap.set(".cover-photo", { rotation: (i, t) => parseFloat(t.dataset.rot) || 0 });
-
           if (ctx.conditions.reduce) {
             revealAllNow();
             return;
@@ -274,21 +271,6 @@
             ScrollTrigger.refresh();
           };
           playIntro();
-
-          /* Floating photo wall: fade-in, gentle float, pointer parallax */
-          gsap.from(".cover-photo-slot", { autoAlpha: 0, duration: 0.9, stagger: 0.08, ease: "power2.out" });
-          gsap.utils.toArray(".cover-photo").forEach((t, i) => {
-            gsap.to(t, { y: "+=16", rotation: "+=2.5", duration: 3 + (i % 3) * 0.7, ease: "sine.inOut", yoyo: true, repeat: -1, delay: i * 0.12 });
-          });
-          if (gsap.quickTo) {
-            const introEl = document.getElementById("intro");
-            const px = gsap.quickTo(".cover-photos", "x", { duration: 0.6, ease: "power2.out" });
-            const py = gsap.quickTo(".cover-photos", "y", { duration: 0.6, ease: "power2.out" });
-            if (introEl) introEl.addEventListener("pointermove", (e) => {
-              px((e.clientX / window.innerWidth - 0.5) * -28);
-              py((e.clientY / window.innerHeight - 0.5) * -18);
-            });
-          }
 
           /* Intro dissolves upward as you scroll past it */
           gsap.to(".intro-inner", {
