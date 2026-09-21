@@ -21,6 +21,7 @@ const SITE_DATA = {
 
   /* ---------------- News / 动态（最新的放最上面） ---------------- */
   news: [
+    { date: "2026.09", html: '<strong>HiRe-MoMa</strong> accepted to <strong>CoRL 2026</strong>! Two new papers — <strong>AXIS-Bench</strong> (quality-aware VLA pretraining) and the closed-loop human-following work — submitted to <strong>ICRA 2027</strong>.' },
     { date: "2026.05", html: 'Three papers — <strong>CoopLight</strong>, <strong>HiRe-MoMa</strong>, and a closed-loop human-following work — submitted to <strong>NeurIPS 2026</strong> / <strong>CoRL 2026</strong>.' },
     { date: "2026.04", html: 'Serving as <strong>Grader</strong> for <em>CS170: Introduction to Artificial Intelligence</em> at UC Riverside.' },
     { date: "2025.10", html: 'Joined the <strong>Trustworthy Autonomous Systems Laboratory (TASL)</strong>, advised by Prof. Jiachen Li.' },
@@ -35,12 +36,28 @@ const SITE_DATA = {
      image:   论文插图 / teaser（如 "assets/img/cooplight.png"）。
               Selected 组若留 null 会显示左侧"Figure"占位框，填上路径即替换为真图 */
   publications: [
-    /* —— 与申请最相关的在投工作 —— */
+    /* —— 精选 —— */
     {
-      group: "Selected — Under Review",
+      group: "Selected Publications",
+      selected: true,
+      title: "HiRe-MoMa: Hierarchical Residual Policy Learning for Real-World Mobile Manipulation with Sparse Human Guidance",
+      authors: 'Zhefei Gong<sup>*</sup>, <strong>Hefeifei Jiang</strong><sup>*</sup>, Zehao Wang, Jiachen Li',
+      venue: "Conference on Robot Learning (CoRL) 2026",
+      year: "",
+      award: "",
+      summary: "HiRe-MoMa fine-tunes a frozen base policy via a hierarchical residual architecture and expert-guided value alignment, enabling stable, sample-efficient on-robot learning for mobile manipulation on a TIAGo++ with under 20% human guidance.",
+      image: "assets/pub_figure/hiremoma.png",
+      links: [
+        { label: "Paper",   href: "#" },
+        { label: "Code",    href: "#" },
+        { label: "Project", href: "#" },
+      ],
+    },
+    {
+      group: "Selected Publications",
       selected: true,
       title: "CoopLight: Cooperative Vision-Language Agents for Long-Tail Traffic Control",
-      authors: 'Zehao Wang, <strong>Hefeifei Jiang</strong>, Siyan Li, Guoyuan Wu, Jiachen Li',
+      authors: 'Zehao Wang<sup>*</sup>, <strong>Hefeifei Jiang</strong><sup>*</sup>, Siyan Li, Guoyuan Wu, Jiachen Li',
       venue: "Conference on Neural Information Processing Systems (NeurIPS) 2026",
       year: "",
       award: "Under Review",
@@ -53,27 +70,11 @@ const SITE_DATA = {
       ],
     },
     {
-      group: "Selected — Under Review",
-      selected: true,
-      title: "Hierarchical Residual Policy Learning for Real-World Mobile Manipulation with Sparse Human Guidance",
-      authors: 'Zhefei Gong, <strong>Hefeifei Jiang</strong>, Zehao Wang, Jiachen Li',
-      venue: "Conference on Robot Learning (CoRL) 2026",
-      year: "",
-      award: "Under Review",
-      summary: "HiRe-MoMa fine-tunes a frozen base policy via a hierarchical residual architecture and expert-guided value alignment, enabling stable, sample-efficient on-robot learning for mobile manipulation on a TIAGo++ with under 20% human guidance.",
-      image: "assets/pub_figure/hiremoma.png",
-      links: [
-        { label: "Paper",   href: "#" },
-        { label: "Code",    href: "#" },
-        { label: "Project", href: "#" },
-      ],
-    },
-    {
-      group: "Selected — Under Review",
+      group: "Selected Publications",
       selected: true,
       title: "Closed-Loop Customizable Human Following via Distilling Monotonic Constrained Policies",
       authors: 'Shiting Gong, Jianpeng Yao, Litian Gong, <strong>Hefeifei Jiang</strong>, Huaide Jiang, Jinfeng Wang, Zheyu Lin, Mingyu Ding, Jiachen Li',
-      venue: "Conference on Robot Learning (CoRL) 2026",
+      venue: "IEEE International Conference on Robotics and Automation (ICRA) 2027",
       year: "",
       award: "Under Review",
       summary: "Distills constrained-RL guiding policies into a single preference-conditioned meta-policy, with a closed-loop adaptive mapping for test-time customizable human-following distance and lower collision rates.",
@@ -83,6 +84,18 @@ const SITE_DATA = {
         { label: "Code",    href: "#" },
         { label: "Project", href: "#" },
       ],
+    },
+    /* —— 其他在投 —— */
+    {
+      group: "Under Review",
+      title: "What Matters in Quality-Aware VLA Pretraining: A Benchmark and Empirical Study",
+      authors: 'Mingxuan Yan, Litian Gong, Dihong Huang, Zhixu Li, Tianyu Zhang, Wenqian Zhang, <strong>Hefeifei Jiang</strong>, Peihao Li, Jian Zhang, Mengfei Zhao, Yikai Tang, Hai Zhai, Zehao Wang, Ruijian Liang, Yanjia Huang, Lin Shao, Changliu Liu, Kaiyu Hang, Zhiwen Fan, Masayoshi Tomizuka, Jianfei Yang, Jiachen Li',
+      venue: "IEEE International Conference on Robotics and Automation (ICRA) 2027",
+      year: "",
+      award: "Under Review",
+      summary: "AXIS-Bench: a simulation and real-world benchmark of naturally suboptimal human demonstrations for studying how demonstration quality should be used (weighting, filtering, conditioning) in VLA pretraining.",
+      image: null,
+      links: [],
     },
     /* —— 已发表 —— */
     {
