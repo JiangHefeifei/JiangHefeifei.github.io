@@ -94,7 +94,7 @@ const SITE_DATA = {
       year: "",
       award: "Under Review",
       summary: "AXIS-Bench: a simulation and real-world benchmark of naturally suboptimal human demonstrations for studying how demonstration quality should be used (weighting, filtering, conditioning) in VLA pretraining.",
-      image: null,
+      image: "assets/pub_figure/axis-bench.png",
       links: [],
     },
     /* —— 已发表 —— */
