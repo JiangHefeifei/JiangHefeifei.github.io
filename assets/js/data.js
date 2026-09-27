@@ -58,7 +58,7 @@ const SITE_DATA = {
       selected: true,
       title: "CoopLight: Cooperative Vision-Language Agents for Long-Tail Traffic Control",
       authors: 'Zehao Wang<sup>*</sup>, <strong>Hefeifei Jiang</strong><sup>*</sup>, Siyan Li, Guoyuan Wu, Jiachen Li',
-      venue: "Conference on Neural Information Processing Systems (NeurIPS) 2026",
+      venue: "International Conference on Learning Representations (ICLR) 2027",
       year: "",
       award: "Under Review",
       summary: "",
