@@ -21,8 +21,7 @@ const SITE_DATA = {
 
   /* ---------------- News / 动态（最新的放最上面） ---------------- */
   news: [
-    { date: "2026.09", html: '<strong>HiRe-MoMa</strong> accepted to <strong>CoRL 2026</strong>. Two new papers submitted to <strong>ICRA 2027</strong>: <strong>AXIS-Bench</strong> on quality-aware VLA pretraining, and the closed-loop human-following work.' },
-    { date: "2026.05", html: 'Three papers submitted, <strong>CoopLight</strong>, <strong>HiRe-MoMa</strong>, and a closed-loop human-following work, to <strong>NeurIPS 2026</strong> / <strong>CoRL 2026</strong>.' },
+    { date: "2026.09", html: '<strong>HiRe-MoMa</strong> accepted to <strong>CoRL 2026</strong>.' },
     { date: "2026.04", html: 'Serving as <strong>Grader</strong> for <em>CS170: Introduction to Artificial Intelligence</em> at UC Riverside.' },
     { date: "2025.10", html: 'Joined the <strong>Trustworthy Autonomous Systems Laboratory (TASL)</strong>, advised by Prof. Jiachen Li.' },
     { date: "2025.09", html: 'Started my <strong>M.S. in Robotics</strong> at the University of California, Riverside.' },
