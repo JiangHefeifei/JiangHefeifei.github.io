@@ -19,9 +19,9 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/style.css?v=20261125" />
 
   <!-- GSAP (animation engine). Loaded synchronously so the intro has no flash. -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
@@ -87,7 +87,8 @@
         <!-- ============ 改这里：姓名 / 头衔 / 机构 ============ -->
         <p class="name">Hefeifei Jiang</p>
         <p class="tagline">M.S. in Robotics</p>
-        <p class="affiliation">University of California, Riverside<br />Researcher @ TASL · Advised by Jiachen Li<br />Incoming Ph.D. @ Colorado School of Mines (MAI Lab)</p>
+        <p class="affiliation">University of California, Riverside<br />TASL, advised by Prof. Jiachen Li</p>
+        <p class="affiliation affiliation-next">Incoming Ph.D. student<br />MAI Lab, Colorado School of Mines</p>
       </div>
 
       <ul class="social" id="social-links" aria-label="Social links"></ul>
@@ -139,7 +140,7 @@
         </p>
         <p class="reveal phd-callout">
           I will join the <span class="hl">MAI Lab</span> at the
-          <span class="hl">Colorado School of Mines</span> as a Ph.D. student in 2027,
+          <span class="hl">Colorado School of Mines</span> as a Ph.D. student in Spring 2027,
           advised by Prof.
           <a href="https://sites.google.com/view/minghanli-homepage" target="_blank" rel="noopener">Minghan Li</a>.
         </p>
@@ -148,7 +149,9 @@
       <!-- News -->
       <section id="news" class="section">
         <h2 class="section-title reveal">News</h2>
-        <ul class="news-list" id="news-list"></ul>
+        <div class="news-scroll reveal" id="news-scroll">
+          <ul class="news-list" id="news-list" tabindex="0" aria-label="News, newest first"></ul>
+        </div>
       </section>
 
       <!-- Selected Publications -->
@@ -196,11 +199,11 @@
   </div>
 
   <!-- 内容数据（日常更新主要改这个文件） -->
-  <script src="assets/js/data.js"></script>
+  <script src="assets/js/data.js?v=20261125"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
-  <script src="assets/js/cover-field.js"></script>
-  <script src="assets/js/pub-cards.js"></script>
+  <script src="assets/js/cover-field.js?v=20261125"></script>
+  <script src="assets/js/pub-cards.js?v=20261125"></script>
   <!-- 渲染 + 交互 + GSAP 动画（一般不用动） -->
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/main.js?v=20261125"></script>
 </body>
 </html>

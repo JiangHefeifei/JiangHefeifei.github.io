@@ -54,10 +54,32 @@
     el.innerHTML = data.news
       .map(
         (n) =>
-          `<li class="news-item reveal"><span class="news-date">${esc(n.date)}</span>` +
+          `<li class="news-item in-scroller"><span class="news-date">${esc(n.date)}</span>` +
           `<span class="news-body">${n.html}</span></li>`
       )
       .join("");
+    initNewsFade(el);
+  }
+
+  /* News scroll box: fade the top/bottom edge only when there is more to scroll.
+     Sentinel rows + IntersectionObserver (rooted in the box), no scroll listener. */
+  function initNewsFade(list) {
+    const box = list.parentElement;
+    const rows = list.children;
+    if (!box || !rows.length || !("IntersectionObserver" in window)) return;
+    const first = rows[0], last = rows[rows.length - 1];
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          const full = e.intersectionRatio > 0.98;
+          if (e.target === first) box.classList.toggle("fade-top", !full);
+          if (e.target === last) box.classList.toggle("fade-bottom", !full);
+        });
+      },
+      { root: list, threshold: [0, 0.98, 1] }
+    );
+    io.observe(first);
+    io.observe(last);
   }
 
   function linkRow(links, cls) {
@@ -353,7 +375,7 @@
           });
 
           /* News and awards: date column leads, text follows */
-          const ROW = ".news-item";
+          const ROW = ".news-item:not(.in-scroller)";
           gsap.set(ROW, { autoAlpha: 0 });
           gsap.set(ROW + " .news-date", { autoAlpha: 0, x: -10 });
           gsap.set(ROW + " .news-body", { autoAlpha: 0, y: 8 });
