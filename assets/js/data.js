@@ -21,6 +21,9 @@ const SITE_DATA = {
 
   /* ---------------- News / 动态（最新的放最上面） ---------------- */
   news: [
+    { date: "2026.11", html: 'Will join the <strong>MAI Lab</strong> at <strong>Colorado School of Mines</strong> as a Ph.D. student in 2027, advised by Prof. <a href="https://sites.google.com/view/minghanli-homepage" target="_blank" rel="noopener">Minghan Li</a>.' },
+    { date: "2026.11", html: 'Attended <strong>CoRL 2026</strong>.' },
+    { date: "2026.10", html: 'Served as a <strong>Reviewer</strong> for the <strong>HumanRLI Workshop</strong> at <strong>CoRL 2026</strong>.' },
     { date: "2026.09", html: '<strong>HiRe-MoMa</strong> accepted to <strong>CoRL 2026</strong>.' },
     { date: "2026.04", html: 'Serving as <strong>Grader</strong> for <em>CS170: Introduction to Artificial Intelligence</em> at UC Riverside.' },
     { date: "2025.10", html: 'Joined the <strong>Trustworthy Autonomous Systems Laboratory (TASL)</strong>, advised by Prof. Jiachen Li.' },
